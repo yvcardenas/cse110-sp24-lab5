@@ -10,6 +10,12 @@ function init() {
   const playButton = document.querySelector('button');
   const audioElement = document.querySelector('audio');
 
+  const horns = {
+    'air-horn': { image: 'assets/images/air-horn.svg', audio: 'assets/audio/air-horn.mp3'},
+    'car-horn': { image: 'assets/images/car-horn.svg', audio: 'assets/audio/car-horn.mp3'},
+    'party-horn': { image: 'assets/images/party-horn.svg', audio: 'assets/audio/party-horn.mp3'}
+  };
+
   /**
    * Event listener for horn selection
    * - Correct image should display depending on selection
@@ -17,10 +23,11 @@ function init() {
    */
   hornSelect.addEventListener('change', function(){
       // Corresponding image is deplaying depending on selection
+      const hornSelectInfo = horns[hornSelect.value];
       const hornImage = document.querySelector('#expose img');
-      hornImage.src = 'assets/images/${hornSelect.value}.svg';
+      hornImage.src = hornSelectInfo.image;
       // Corresponding audio file is set depending on selection
-      audioElement.src = 'assets/audio/${hornSelect.value}.mp3';
+      audioElement.src = hornSelectInfo.audio;
   });
 
   /**
@@ -60,9 +67,18 @@ function init() {
     // Sound for selected horn plays out loud
     audioElement.play();
 
+
     // If party horn is selected, confetti is shot out
     if(hornSelect.value == 'party-horn'){
-      confetti();
+      const confetti = new JSConfetti();
+      confetti.addConfetti({
+        confettiNumber: 100,
+        confettiRadius: 6,
+        confettiColors: ['#fcf403', '#62fc03', '#f4fc03', '#03e7fc', '#03fca5', '#a503fc', '#fc03ad', '#fc03c2'],
+        emojiSize: 80,
+        emojis: ['🎉', '🥳', '🎊', '🎈']
+      });
     }
+    
   });
 }
